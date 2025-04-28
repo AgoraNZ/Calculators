@@ -1,221 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pulses and Litres Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            margin: 0;
-            background-color: #f0f0f0;
-            height: 100vh;
-        }
-        .container {
-            display: flex;
-            justify-content: space-between;
-            width: 80%; /* Adjust width as needed */
-            margin-top: 20px; /* Adjust top margin */
-        }
-        .calculator {
-            background-color: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-            width: 45%; /* Width for both calculators */
-            display: flex;
-            flex-direction: column;
-        }
-        .input-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px; /* Space between input fields */
-        }
-        .input-display {
-            padding: 6px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 12px;
-            width: 48%; /* Adjust width to fit inputs */
-            height: 28px;
-            line-height: 28px;
-            background-color: #fafafa;
-            transition: background-color 0.3s;
-        }
-        .input-display.active {
-            background-color: #e0f7fa; /* Highlight color */
-        }
-        .result {
-            font-size: 14px; /* Font size for result */
-            margin-top: 5px; /* Space above result */
-        }
-        .keypad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 5px; /* Space between buttons */
-            margin-top: 10px; /* Space above keypad */
-        }
-        .keypad button {
-            padding: 8px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: #f9f9f9;
-            cursor: pointer;
-        }
-        .keypad button:hover {
-            background-color: #e0e0e0; /* Hover effect */
-        }
-    </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pulses and Litres Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f0f0f0;
+      min-height: 100vh;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      width: 90%;
+      max-width: 800px;
+      margin-top: 20px;
+    }
+    .calculator {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .calculator h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+    .input-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    .input-field {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .input-field label {
+      font-size: 16px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .input-display {
+      width: 100%;
+      height: 60px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 24px;
+      line-height: 60px;
+      text-align: center;
+      background-color: #fafafa;
+      transition: background-color 0.3s;
+    }
+    .input-display.active {
+      background-color: #e0f7fa;
+    }
+    .result {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    .keypad {
+      width: 350px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px auto;
+    }
+    .keypad button {
+      width: 100%;
+      height: 60px;
+      font-size: 24px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      cursor: pointer;
+    }
+    .keypad button:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="calculator" id="venturiCalculator">
-            <h2>Venturi Mix Ratio Calculator</h2>
-            <div class="input-container">
-                <div>
-                    <label>Total Volume (L):</label>
-                    <div class="input-display" id="volumeDeliveredDisplay">0</div>
-                </div>
-                <div>
-                    <label>Concentrate (L):</label>
-                    <div class="input-display" id="concentrateUsedDisplay">0</div>
-                </div>
-            </div>
-            <div class="result" id="venturiResult">Ratio: 1:0</div>
+  <div class="container">
+    <!-- Venturi Mix Ratio Calculator -->
+    <div class="calculator" id="venturiCalculator">
+      <h2>Venturi Mix Ratio</h2>
+      <div class="input-container">
+        <div class="input-field">
+          <label>Total Volume (L)</label>
+          <div class="input-display" id="volumeDeliveredDisplay">0</div>
         </div>
-
-        <div class="calculator" id="pulsesLitresCalculator">
-            <h2>ML Per Pulse Calculator</h2>
-            <div class="input-container">
-                <div>
-                    <label for="pulses">Pulses:</label>
-                    <div class="input-display" id="pulsesDisplay">0</div>
-                </div>
-                <div>
-                    <label for="litres">ML:</label>
-                    <div class="input-display" id="litresDisplay">0</div>
-                </div>
-            </div>
-            <div class="result" id="result">ML Per Pulse: <span id="resultValue"></span></div>
+        <div class="input-field">
+          <label>Concentrate (L)</label>
+          <div class="input-display" id="concentrateUsedDisplay">0</div>
         </div>
+      </div>
+      <div class="result" id="venturiResult">Ratio: 1:0</div>
     </div>
 
-    <div class="keypad" id="keypad">
-        <button onclick="appendNumber('1')">1</button>
-        <button onclick="appendNumber('2')">2</button>
-        <button onclick="appendNumber('3')">3</button>
-        <button onclick="appendNumber('4')">4</button>
-        <button onclick="appendNumber('5')">5</button>
-        <button onclick="appendNumber('6')">6</button>
-        <button onclick="appendNumber('7')">7</button>
-        <button onclick="appendNumber('8')">8</button>
-        <button onclick="appendNumber('9')">9</button>
-        <button onclick="clearInput()">C</button>
-        <button onclick="appendNumber('0')">0</button>
-        <button onclick="appendDecimal()">.</button>
-        <button onclick="removeLast()">←</button>
+    <!-- ML Per Pulse Calculator -->
+    <div class="calculator" id="pulsesLitresCalculator">
+      <h2>ML Per Pulse</h2>
+      <div class="input-container">
+        <div class="input-field">
+          <label>Pulses</label>
+          <div class="input-display" id="pulsesDisplay">0</div>
+        </div>
+        <div class="input-field">
+          <label>ML</label>
+          <div class="input-display" id="litresDisplay">0</div>
+        </div>
+      </div>
+      <div class="result">ML/Pulse: <span id="resultValue"></span></div>
     </div>
+  </div>
 
-    <script>
-        let currentInput = 'volumeDelivered'; // Track which input field is currently being filled
+  <!-- Big Keypad -->
+  <div class="keypad" id="keypad">
+    <button onclick="appendNumber('1')">1</button>
+    <button onclick="appendNumber('2')">2</button>
+    <button onclick="appendNumber('3')">3</button>
+    <button onclick="appendNumber('4')">4</button>
+    <button onclick="appendNumber('5')">5</button>
+    <button onclick="appendNumber('6')">6</button>
+    <button onclick="appendNumber('7')">7</button>
+    <button onclick="appendNumber('8')">8</button>
+    <button onclick="appendNumber('9')">9</button>
+    <button onclick="clearInput()">C</button>
+    <button onclick="appendNumber('0')">0</button>
+    <button onclick="appendDecimal()">.</button>
+    <button style="grid-column: span 3;" onclick="removeLast()">←</button>
+  </div>
 
-        // Venturi Calculator Functions
-        function updateVenturiDisplay(value) {
-            document.getElementById(`${currentInput}Display`).innerText = value;
-            calculateVenturiRatio();
-        }
+  <script>
+    let currentInput = 'volumeDelivered';
 
-        function calculateVenturiRatio() {
-            let volumeDelivered = parseFloat(document.getElementById('volumeDeliveredDisplay').innerText);
-            let concentrateUsed = parseFloat(document.getElementById('concentrateUsedDisplay').innerText);
-            
-            if (!isNaN(volumeDelivered) && !isNaN(concentrateUsed) && concentrateUsed > 0 && volumeDelivered > concentrateUsed) {
-                let waterUsed = volumeDelivered - concentrateUsed;
-                let ratio = (waterUsed / concentrateUsed).toFixed(2);
-                document.getElementById('venturiResult').innerText = `Ratio: 1:${ratio}`;
-            } else {
-                document.getElementById('venturiResult').innerText = 'Ratio: 1:0';
-            }
-        }
+    // Venturi Calculator
+    function updateVenturiDisplay(val) {
+      document.getElementById(`${currentInput}Display`).innerText = val;
+      calculateVenturiRatio();
+    }
+    function calculateVenturiRatio() {
+      const vol = parseFloat(document.getElementById('volumeDeliveredDisplay').innerText);
+      const conc = parseFloat(document.getElementById('concentrateUsedDisplay').innerText);
+      if (!isNaN(vol) && !isNaN(conc) && conc > 0 && vol > conc) {
+        const water = vol - conc;
+        const ratio = (water / conc).toFixed(2);
+        document.getElementById('venturiResult').innerText = `Ratio: 1:${ratio}`;
+      } else {
+        document.getElementById('venturiResult').innerText = 'Ratio: 1:0';
+      }
+    }
 
-        // Pulses and Litres Calculator Functions
-        function calculate() {
-            const pulses = parseFloat(document.getElementById('pulsesDisplay').innerText);
-            const litres = parseFloat(document.getElementById('litresDisplay').innerText);
-            const resultField = document.getElementById('resultValue');
+    // Pulses & Litres Calculator
+    function calculate() {
+      const p = parseFloat(document.getElementById('pulsesDisplay').innerText);
+      const l = parseFloat(document.getElementById('litresDisplay').innerText);
+      const out = document.getElementById('resultValue');
+      if (p > 0) {
+        out.textContent = (l / p).toFixed(2);
+      } else {
+        out.textContent = '';
+      }
+    }
 
-            if (pulses > 0) {
-                const millilitresPerPulse = litres / pulses; // Correct calculation: litres divided by pulses
-                resultField.textContent = millilitresPerPulse.toFixed(2); // Show result with 2 decimal places
-            } else {
-                resultField.textContent = ''; // Clear result if pulses are 0 or invalid
-            }
-        }
+    // Keypad handlers
+    function appendNumber(n) {
+      const d = document.getElementById(`${currentInput}Display`);
+      d.innerText = d.innerText === '0' ? n : d.innerText + n;
+      updateVenturiDisplay(d.innerText);
+      calculate();
+    }
+    function appendDecimal() {
+      const d = document.getElementById(`${currentInput}Display`);
+      if (!d.innerText.includes('.')) {
+        d.innerText += '.';
+        updateVenturiDisplay(d.innerText);
+      }
+    }
+    function clearInput() {
+      const d = document.getElementById(`${currentInput}Display`);
+      d.innerText = '0';
+      updateVenturiDisplay('0');
+    }
+    function removeLast() {
+      const d = document.getElementById(`${currentInput}Display`);
+      const txt = d.innerText;
+      d.innerText = txt.length > 1 ? txt.slice(0, -1) : '0';
+      updateVenturiDisplay(d.innerText);
+      calculate();
+    }
 
-        // Shared Keypad Functions
-        function appendNumber(num) {
-            const venturiDisplay = document.getElementById(`${currentInput}Display`);
-            venturiDisplay.innerText = venturiDisplay.innerText === '0' ? num : venturiDisplay.innerText + num;
-            updateVenturiDisplay(venturiDisplay.innerText);
-            calculate(); // Update the other calculator as needed
-        }
+    // Focus handling
+    ['volumeDelivered','concentrateUsed','pulses','litres'].forEach(id => {
+      document.getElementById(id + 'Display').addEventListener('click', () => {
+        currentInput = id;
+        document.querySelectorAll('.input-display').forEach(el => el.classList.remove('active'));
+        document.getElementById(id + 'Display').classList.add('active');
+      });
+    });
 
-        function appendDecimal() {
-            const display = document.getElementById(`${currentInput}Display`);
-            if (!display.innerText.includes('.')) {
-                display.innerText += '.';
-                updateVenturiDisplay(display.innerText);
-            }
-        }
-
-        function clearInput() {
-            const display = document.getElementById(`${currentInput}Display`);
-            display.innerText = '0';
-            updateVenturiDisplay(display.innerText);
-        }
-
-        function removeLast() {
-            const display = document.getElementById(`${currentInput}Display`);
-            const currentValue = display.innerText;
-            display.innerText = currentValue.length > 1 ? currentValue.slice(0, -1) : '0';
-            updateVenturiDisplay(display.innerText);
-        }
-
-        // Set focus to the first input display on page load
-        document.getElementById('volumeDeliveredDisplay').addEventListener('click', function() {
-            setActiveDisplay('volumeDelivered');
-        });
-
-        document.getElementById('concentrateUsedDisplay').addEventListener('click', function() {
-            setActiveDisplay('concentrateUsed');
-        });
-
-        document.getElementById('pulsesDisplay').addEventListener('click', function() {
-            setActiveDisplay('pulses');
-        });
-
-        document.getElementById('litresDisplay').addEventListener('click', function() {
-            setActiveDisplay('litres');
-        });
-
-        function setActiveDisplay(input) {
-            currentInput = input;
-            const inputs = ['volumeDelivered', 'concentrateUsed', 'pulses', 'litres'];
-
-            // Remove active class from all displays
-            inputs.forEach((inputField) => {
-                document.getElementById(`${inputField}Display`).classList.remove('active');
-            });
-
-            // Add active class to the selected display
-            document.getElementById(`${input}Display`).classList.add('active');
-        }
-    </script>
+    // initialize
+    document.getElementById('volumeDeliveredDisplay').classList.add('active');
+  </script>
 
 </body>
 </html>
